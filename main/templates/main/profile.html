@@ -1,0 +1,50 @@
+{% extends 'main/navbar.html' %}
+{% block title %} Profile {% endblock title %}
+
+{% block body %}
+
+
+<BR><br>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="container Lookout ">
+        <fieldset>
+            <legend>Update Profile</legend>
+
+            {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+            {% endfor %}
+            <div class="form-group">
+                <labe>Username:  &nbsp;&nbsp;  </label>
+                <input type="text" value="{{user.username}}" class="form-control-plaintext-sm" readonly>  
+                <small class="form-text text-muted">Username can't be changed.</small>     
+            </div>
+            {% for field in form %}
+            <div class="form-group">
+                {{field.label_tag}}
+                {{ field }}
+                {% if field.help_text %}
+                <small class="form-text text-muted">{{field.help_text}}</small>
+                {% endif %}
+
+                {% if form.errors %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">Update</button>
+
+        </fieldset>
+    </div>
+
+</form>
+
+{% endblock body %}

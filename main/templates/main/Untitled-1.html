@@ -1,0 +1,142 @@
+{% extends 'main/navbar.html' %} 
+{% block title %} Home 
+{% endblock title %} 
+{% block body %}
+<br><br>
+<div class="bbody">
+<div class="container mb-0 mt-5">
+    <div class="jumbotron">
+        <h3 class="text-center">Search For Any Movieeeee</h3>
+        <form class="input-group">
+            <input class="form-control " type="search" name="q" placeholder="Search Movies..." value="{{request.GET.q}}">
+            <span class="input-group-append">
+              <button class="btn btn-outline-light" type="submit">
+                  <i class="fa fa-search"></i>
+              </button>
+            </span>
+        </form>
+        <div class="text-center mt-2" id="loader">
+            <a href="{% url 'recommend' %}">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Get Recommendations
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+{% if movies_and_posters %}
+<div class="container col-md-10">
+    <div class="row">
+        {% for movie, poster in movies_and_posters %}
+        <div class="card text-center col-sm-3 my-1">
+            <img class="card-img-top img-thumbnail" src="{{poster}}" alt="Movie Poster">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{movie.title}}</h5>
+                <p class="card-text">{{movie.genres}}</p>
+                <button type="button" class="btn btn-primary mt-auto">
+                    <a href="{% url 'details' movie.pk %}" class="text-white">More Info</a>
+                    </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+{% endif %} {% endblock body %}
+
+ <!-- Search Section -->
+ <div class="container my-4 ">
+    <div class="jumbotron  text-center p-4">
+        <h3>Search for Any Movie</h3>
+        <form class="input-group my-3" action="" method="get">
+            <input class="form-control" type="search" name="q" placeholder="Search Movie..." value="{{ request.GET.q }}">
+            <span class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </form>
+        <a href="{% url 'recommend' %}">
+            <button type="button" class="btn btn-primary btn-lg">
+                Get Recommendations
+            </button>
+        </a>
+    </div>
+</div>
+
+{% if movies_and_posters %}
+<!-- Movie List Section -->
+<div class="container col-md-10">
+    <div class="row">
+        {% for movie, poster in movies_and_posters %}
+        <div class="card text-center col-sm-3 my-2">
+            <img class="card-img-top img-thumbnail" src="{{ poster }}" alt="Movie Poster">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ movie.title }}</h5>
+                <p class="card-text">{{ movie.genres }}</p>
+                <a href="{% url 'details' movie.pk %}" class="btn btn-primary mt-auto">More Info</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+
+
+
+<div class="modal-body">
+    <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        
+        <!-- Username Field -->
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+        </div>
+
+        <!-- First Name Field -->
+        <div class="mb-3">
+            <label for="first_name" class="form-label">First Name:</label>
+            <input type="text" name="first_name" class="form-control" placeholder="Enter first name" required>
+        </div>
+
+        <!-- Last Name Field -->
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Last Name:</label>
+            <input type="text" name="last_name" class="form-control" placeholder="Enter last name" required>
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+        </div>
+
+       
+        <!-- Password Field for Signup Modal -->
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <div class="input-group">
+                <input type="password" name="password" class="form-control" id="signupPassword" placeholder="Enter password" required>
+                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('signupPassword')">Show</button>
+            </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="mb-3">
+            <label for="password2" class="form-label">Confirm Password:</label>
+            <div class="input-group">
+                <input type="password" name="password2" class="form-control" id="signupConfirmPassword" placeholder="Confirm password" required>
+                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('signupConfirmPassword')">Show</button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+    </form>
+</div>
+<div class="modal-footer">
+    <p>Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login</a></p>
+</div>

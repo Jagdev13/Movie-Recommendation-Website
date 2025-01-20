@@ -1,0 +1,482 @@
+
+   
+    .bbody::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: var(--background-image);
+        background-size: cover;
+        background-position: center;
+        filter: blur(10px);
+        z-index: -1; /* Keeps the blur behind the content */
+        pointer-events: none; /* Prevents interference with page interactions */
+    }
+   
+   .container { max-width: 90%; color: white !important; }
+    .movie-section { margin-top: 20px; position: relative; }
+    .movie-carousel {
+        display: flex;
+        overflow: hidden;
+        position: relative;
+        padding: 10px;
+        
+    }
+    .movie-list {
+        display: flex;
+        white-space: nowrap;
+        transition: transform 0.3s ease-in-out;
+        height: 400px !important;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+    }
+    .movie-item {
+        flex: 0 0 auto;
+        display: inline-block;
+        width: 200px !important;  
+        height: 300px !important;  
+        text-align: center;
+        padding: 0%;
+        margin: 5px;
+        flex-shrink: 0;
+    }
+    .movie-poster {
+        width: 200px !important;  /* Adjusted */
+        height: 300px !important;  /* Adjusted */
+        object-fit: cover;
+        border-radius: 20px;
+    }
+    .arrow {
+        position: absolute;
+        top: 35%;
+        transform: translateY(-50%);
+        font-size: 2em;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        height: 4rem;
+        width: 1.2rem;
+        border-radius: 16rem;
+        border: none;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 0;
+    
+        -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        color: rgb(255, 255, 255);
+        background-color: rgb(65, 65, 65);
+        border-width: 0.0625rem;
+        border-color: rgba(128, 128, 128, 0.7);
+        border-style: solid;
+        box-shadow: none;
+    }
+    .arrow.left { 
+        left: 0;
+       
+      
+         }
+    .arrow.right { right: 0; }
+    h3 { font-weight: bold; }
+
+
+
+
+
+
+
+/* list page css */
+.headingml{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Filter Container Style */
+.filter-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 6px;  /* Smaller padding */
+    margin-top: 20px;  /* Space between the heading and filter */
+    margin-bottom: 20px;
+    margin-left: 20px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    width: 140px !important;  /* Even smaller width */
+    float:left
+}
+
+/* Filter Container Hover Effect */
+.filter-container:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+.genreform
+{
+    width: auto;
+}
+/* Genre Select Style */
+.genre-select {
+    background-color: #222;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 4px;  /* Reduced padding for a compact dropdown */
+    width: 100%;
+    font-size: 0.75rem;  /* Smaller font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hover Effect on Genre Select */
+.genre-select:hover {
+    background-color: #444;
+    border-color: #e50914;
+}
+
+/* Style for the filter dropdown */
+.genre-select {
+    background-color: #333;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 4px;  /* Smaller padding */
+    font-size: 0.75rem;  /* Smaller font size */
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.genre-select:hover {
+    background-color: #444;
+    border-color: #e50914;
+}
+
+.genre-select:focus {
+    border-color: #e50914;
+    box-shadow: 0 0 10px rgba(233, 9, 20, 0.5);
+}
+
+
+
+    
+/* Movie List Section */
+.movie-list-container {
+    margin: auto;
+    width: 100%;
+}
+
+/* Card styling */
+.card {
+    background: transparent; /* Remove background color */
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-radius: 15px;
+    height: 300px; /* Set fixed height */
+    width: fit-content;
+}
+
+/* Container for the movie poster */
+.card-img-container {
+    position: relative;
+    overflow: hidden;
+    height: 100%; /* Fill entire card */
+    background: transparent;
+    border-radius: 15px !important;
+
+}
+
+/* Movie Poster styling */
+.movie-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px; /* Matches card border radius */
+    transition: transform 0.3s ease;
+}
+
+/* Initially, hide the card details */
+.movie-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    opacity: 0; /* Hidden initially */
+    visibility: hidden; /* Hidden initially */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.movie-card
+{
+    border-radius: 15px !important;
+    background: transparent;
+}
+.card-img-top .movie-poster
+{
+    border-radius: 15px !important;
+}
+/* Show movie info on hover */
+.movie-card:hover .movie-info {
+    opacity: 1; /* Show details */
+    visibility: visible;
+    background-color: rgba(0, 0, 0, 0.7); /* Make background more transparent */
+}
+
+/* Scale up the poster image when hovering */
+.movie-card:hover .movie-poster {
+    transform: scale(1.1); /* Slight zoom effect on image */
+}
+
+/* Movie Title and Button */
+.card-title {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 0.9em;
+    color: #e0e0e0;
+}
+
+.card .btn-primary {
+    background-color: #e50914;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    padding: 5px 20px;
+}
+
+/* Responsiveness for Movie Cards */
+@media (max-width: 576px) {
+    .col-sm-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 768px) {
+    .col-md-4 {
+        flex: 0 0 33.33%;
+        max-width: 33.33%;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-lg-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+
+/*index page functions*/
+  /* General Styles */
+.movie-item {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 200px;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    word-wrap: break-word; /* Ensure long text breaks */
+}
+
+/* Poster Image Styling */
+.movie-poster {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+/* Scale-up effect on hover */
+.movie-item:hover .movie-poster {
+    transform: scale(1.05);
+}
+
+/* Hover Info Styling */
+.movie-hover-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 10px;
+    box-sizing: border-box;
+    word-wrap: break-word; /* Ensure long titles wrap */
+}
+
+/* Display hover info on mouse hover */
+.movie-item:hover .movie-hover-info {
+    opacity: 1;
+}
+
+/* Styling for Movie Title and Info within the Hover */
+.movie-hover-info h4 {
+    font-size: 1.1rem;
+    margin: 5px 0;
+    text-align: center;
+    word-wrap: break-word; /* Ensure title wraps within the container */
+    overflow-wrap: break-word; /* Ensure title breaks if too long */
+    hyphens: auto; /* Automatic word breaks in long titles */
+}
+
+.movie-hover-info p {
+    margin: 2px 0;
+    font-size: 0.9rem;
+    text-align: center;
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .movie-item {
+        width: 180px;
+        margin: 0 8px;
+    }
+
+    .movie-hover-info h4 {
+        font-size: 1rem;
+    }
+
+    .movie-hover-info p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .movie-item {
+        width: 150px;
+        margin: 0 6px;
+    }
+
+    .movie-hover-info h4 {
+        font-size: 0.9rem;
+    }
+
+    .movie-hover-info p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-item {
+        width: 120px;
+        margin: 0 5px;
+    }
+
+    .movie-hover-info h4 {
+        font-size: 0.85rem;
+    }
+
+    .movie-hover-info p {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .movie-carousel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .movie-item {
+        width: 100px;
+        margin: 5px 0;
+    }
+
+    .movie-hover-info h4 {
+        font-size: 0.8rem;
+    }
+
+    .movie-hover-info p {
+        font-size: 0.7rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Add footer styles here */
+.footer {
+    background: linear-gradient(90deg, #000000, #d8313140);;
+    color: #b3b3b3;
+    padding: 40px 0;
+    margin-top: 40px;
+}
+
+.footer a {
+    color: #b3b3b3;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #e50914;
+}
+
+.footer .social-icons i {
+    font-size: 20px;
+    margin-right: 15px;
+}
+
+.footer .social-icons a {
+    color: #b3b3b3;
+    font-size: 20px;
+}
+
+.footer .social-icons a:hover {
+    color: #e50914;
+}
+
+.footer .footer-links {
+    margin-bottom: 20px;
+}
+
+.footer .footer-links ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer .footer-links ul li {
+    margin-bottom: 10px;
+}
+
+.footer .footer-links ul li a {
+    color: #b3b3b3;
+    text-decoration: none;
+}
+
+.footer .footer-links ul li a:hover {
+    color: #e50914;
+}

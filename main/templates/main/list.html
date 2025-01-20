@@ -1,0 +1,82 @@
+{% extends 'main/navbar.html' %}
+{% block title %} Movie List {% endblock title %}
+
+<!-- Bootstrap 5 CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block body %}
+<body class="bbody">
+    <!-- Movie List Header -->
+    <div class="container headingml py-3 mt-5">
+        <h2 class="text-center text-white"><strong>Movie List</strong></h2>
+    </div>
+
+    <!-- Genre Filter Form -->
+    <div class="container filter-container">
+        <form method="GET" action="" class="genreform">
+            <label for="genre" class="text-white">Filter by Genre</label>
+            <select name="genre" id="genre" class="genre-select" onchange="this.form.submit()">
+                <option value="" {% if not selected_genre %}selected{% endif %}>All Genres</option>
+                {% for genre in genres %}
+                    <option value="{{ genre }}" {% if selected_genre == genre %}selected{% endif %}>{{ genre }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <!-- Movie List -->
+    <div class="container movie-list-container">
+        <div class="row">
+            {% for movie, poster in movies_and_posters %}
+                <div class="col-lg-3 col-md-4 col-sm-6 my-2">
+                    <div class="card movie-card">
+                        <div class="card-img-container">
+                            <img src="{{ poster }}" alt="Movie Poster" class="card-img-top movie-poster">
+                        </div>
+                        <div class="card-body movie-info">
+                            <h5 class="card-title">{{ movie.title }}</h5>
+                            <p class="card-text">{{ movie.genres }}</p>
+                            <a href="{% url 'details' movie.pk %}" class="btn btn-primary">More Info</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="row justify-content-center">
+        <ul class="pagination d-flex justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if selected_genre %}&genre={{ selected_genre }}{% endif %}">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">begin</span>
+                </a>
+            </li>
+            {% endif %}
+
+            {% for n in page_obj.paginator.page_range %}
+            {% if page_obj.number == n %}
+                <li class="page-item active">
+                    <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+                </li>
+            {% elif n > page_obj.number|add:'-10' and n < page_obj.number|add:'10' %}
+                <li class="page-item"><a class="page-link" href="?page={{ n }}{% if selected_genre %}&genre={{ selected_genre }}{% endif %}">{{ n }}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if selected_genre %}&genre={{ selected_genre }}{% endif %}">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">end</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+</body>
+{% endblock %}

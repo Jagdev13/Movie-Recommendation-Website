@@ -1,0 +1,117 @@
+{% extends 'main/navbar.html' %}
+{% block title %}Register {% endblock title %}
+
+
+
+{% block body %}
+
+<br>
+<br>
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a>
+<!-- Signup Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="container col-md-5 bg-dark mt-5">
+                        <fieldset>
+                            <legend> Register Here</legend>
+                            
+                            {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                            {% endfor %}
+                
+                            {% for field in form %}
+                            <div class="form-group">
+                                {{field.label_tag}}
+                                {{ field }}
+                
+                                {% if field.help_text %}
+                                <small class="form-text text-muted">{{field.help_text}}</small>
+                                {% endif %}
+                
+                                {% if form.errors %}
+                                {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                                {% endfor %}
+                                {% endif %} 
+                            </div>
+                            {% endfor %}
+                
+                
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                
+                            <div>
+                                <br>
+                                <p>Already have an account?
+                                    <a href="{% url 'log_in' %}"> Click here to login.</a>
+                                </p>
+                            </div>
+                        </fieldset>
+                    </div>
+                
+                </form>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="container col-md-5 bg-dark mt-5">
+        <fieldset>
+            <legend> Register Here</legend>
+
+            {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+            {% endfor %}
+
+            {% for field in form %}
+            <div class="form-group">
+                {{field.label_tag}}
+                {{ field }}
+
+                {% if field.help_text %}
+                <small class="form-text text-muted">{{field.help_text}}</small>
+                {% endif %}
+
+                {% if form.errors %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %} 
+            </div>
+            {% endfor %}
+
+
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+
+            <div>
+                <br>
+                <p>Already have an account?
+                    <a href="{% url 'log_in' %}"> Click here to login.</a>
+                </p>
+            </div>
+        </fieldset>
+    </div>
+
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'main/navbar.html' %} {% block title %} {{movies}} {% endblock title %} {% block body %}
+
+<style>
+    .list-group-item
+    {
+        color: rgba(255, 252, 252);
+    }
+    .container
+    {
+        background: rgb(0, 0, 0, 1); 
+        box-shadow: 15px 15px 15px rgba(251, 2, 2, 0.5);
+    
+    } 
+    </style>
+<br>
+<br>
+<div class="container lookout py-5 px-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{movie_details.Poster}}" class="mx-auto d-block border border-dark" style="width:350px; height:450px;">
+            </div>
+            <div class="col-md-6 offset-md-2 pt-3" style="background: rgb(0, 0, 0, 0.5);">
+                <ul class="list-group" >
+                    <li class="list-group-item">
+                        <h3>Title: {{movies.title}}</h3>
+                    </li>
+                    <li class="list-group-item"><strong>Genre:  {{movies.genres}} </strong></li>
+                    <li class="list-group-item"><strong>Released Date: {{movie_details.Released}}</strong></li>
+                    <li class="list-group-item"><strong>Runtime: {{movie_details.Runtime}}</strong></li>
+                    <li class="list-group-item"><strong>IMDB Rating: {{movie_details.imdbRating}}</strong></li>
+                    <li class="list-group-item"><strong>Director: {{movie_details.Director}}</strong></li>
+                    <li class="list-group-item"><strong>Cast: {{movie_details.Actors}}</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="container bg-dark mt-3 py-3">
+                    <h4><strong>Plot: </strong></h4>
+                    <p>{{movie_details.Plot}}</p>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="container bg-info offset-md-1 mt-3 py-2 px-3">
+                    <form action="" method="POST" name="RatingForm" onsubmit="return validateForm()">
+                        {% csrf_token %}
+                        <span> Please rate the movie to get recommendations:</span>
+                        <div class="star-rating">
+                            <span class="fa fa-star-o" data-rating="1"></span>
+                            <span class="fa fa-star-o" data-rating="2"></span>
+                            <span class="fa fa-star-o" data-rating="3"></span>
+                            <span class="fa fa-star-o" data-rating="4"></span>
+                            <span class="fa fa-star-o" data-rating="5"></span>
+                            <input type="hidden" name="rating" class="rating-value" value="{{old_rating}}">
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
+                        <a class="btn btn-primary rounded-pill" href="{% url 'delete_rating' movies.pk %}">Delete Rating</a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="https://www.imdb.com/title/{{movies.imdbId}}" target="_blank">
+                    <button type="submit" class="btn btn-primary btn-block">More Info</button>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'movie_list' %}">
+                    <button type="submit" class="btn btn-primary btn-block">Go back to Movie list</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock body %}

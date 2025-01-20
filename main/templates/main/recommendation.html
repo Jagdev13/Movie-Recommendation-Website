@@ -1,0 +1,47 @@
+{% extends 'main/navbar.html' %}
+
+{% block title %} Recommendations {% endblock title %}
+
+{% block body %}
+<div class="container headingml py-3 mt-5">
+    <h1 class="text-center text-white">Recommendations for you!</h1>
+</div>
+
+<div class="container filter-container my-3">
+    <form method="GET" action="" class="genreform">
+        <label for="genre" class="text-white">Filter by Genre</label>
+        <select name="genre" id="genre" class="genre-select" onchange="this.form.submit()">
+            <option value="" {% if not selected_genre %}selected{% endif %}>All Genres</option>
+            {% for genre in genres %}
+                <option value="{{ genre }}" {% if selected_genre == genre %}selected{% endif %}>{{ genre }}</option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+
+<div class="container movie-list-container">
+    <div class="row lookout" >
+        {% if movies_and_posters %}
+            {% for movie, poster in movies_and_posters %}
+                <div class="col-lg-3 col-md-4 col-sm-6 my-2">
+                    <div class="card movie-card">
+                        <div class="card-img-container">
+                            <img src="{{ poster }}" alt="Movie Poster" class="card-img-top movie-poster">
+                        </div>
+                        <div class="card-body movie-info">
+                            <h5 class="card-title">{{ movie.title }}</h5>
+                            <p class="card-text">{{ movie.genres }}</p>
+                            <a href="{% url 'details' movie.pk %}" class="btn btn-primary">More Info</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center">
+                <h3>No recommendations available for the selected genre.</h3>
+                <p>Try selecting a different genre or rate more movies to get better recommendations!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

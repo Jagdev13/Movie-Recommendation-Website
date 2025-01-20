@@ -1,0 +1,61 @@
+{% extends 'main/navbar.html' %}
+{% block title %} Watch List {% endblock title %}
+
+
+{% block body %}
+
+<div class="container Lookout py-3 mt-5">
+    <h2 class="text-center"><strong>Watched Movies</strong></h2>
+</div>
+
+
+<div class="container col-md-10">
+    <div class="row py-2">
+        {% for movie, poster in movies_and_posters %}
+            <div class="card text-center col-sm-3 my-1">
+                <img class="card-img-top" src="{{poster}}" alt="Movie Poster">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{movie.title}}</h5>
+                    <p class="card-text">{{movie.genres}}</p>
+                    <a href="{% url 'details' movie.pk %}" class="text-white mt-auto"> 
+                        <button type="button" class="btn btn-primary btn-block rounded-pill">More Info</button>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+  </div>
+  
+<div class="row justify-content-center">   
+    <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page=1">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">begin</span>
+      </a>
+    </li>   
+    {% endif %}
+    
+    {% for n in page_obj.paginator.page_range %}
+      {% if page_obj.number == n %}
+        <li class="page-item active">
+          <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+        </li>
+      {% elif n > page_obj.number|add:'-3' and n < page_obj.number|add:'3' %}
+        <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+      {% endif %}
+    {% endfor %}
+    
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">end</span>
+        </a>
+      </li>
+      {% endif %}   
+    </ul> 
+</div>
+
+
+{% endblock body %}

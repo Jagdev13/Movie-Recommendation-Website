@@ -1,0 +1,161 @@
+{% extends 'main/navbar.html' %}
+{% load static %}
+
+{% block title %} CineSelect {% endblock %}
+<style>
+    .container {
+    max-width: 90%;
+}
+
+.movie-section {
+    margin-top: 20px;
+}
+
+.movie-carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.movie-list {
+    display: flex;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    padding: 10px;
+}
+
+.movie-item {
+    flex: 0 0 auto;
+    width: 150px;
+    margin-right: 15px;
+    text-align: center;
+}
+
+.movie-poster {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+.scroll-left {
+    left: -20px;
+}
+
+.scroll-right {
+    right: -20px;
+}
+
+</style>
+{% block body %}
+<div class="container mt-4">
+
+  
+
+    <!-- Your Recommended Movies Section -->
+    <section class="movie-section mt-5">
+        <h3>Your Recommended Movies</h3>
+        {{movies_and_posters}}
+        
+        <div class="container bg-dark py-3 mt-5">
+            <h2 class="text-center"><strong>Watched Movies</strong></h2>
+        </div>
+        
+        
+        <div class="container col-md-10">
+            <div class="row py-2">
+                {% for movie, poster in movies_and_posters %}
+                    <div class="card text-center col-sm-3 my-1">
+                        <img class="card-img-top" src="{{posters}}" alt="Movie Poster">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{movie.title}}</h5>
+                            <p class="card-text">{{movie.genres}}</p>
+                            <a href="{% url 'details' movie.pk %}" class="text-white mt-auto"> 
+                                <button type="button" class="btn btn-primary btn-block rounded-pill">More Info</button>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+          </div>
+          
+        <div class="row justify-content-center">   
+            <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page=1">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">begin</span>
+              </a>
+            </li>   
+            {% endif %}
+            
+            {% for n in page_obj.paginator.page_range %}
+              {% if page_obj.number == n %}
+                <li class="page-item active">
+                  <span class="page-link">{{ n }}<span class="sr-only">(current)</span></span>
+                </li>
+              {% elif n > page_obj.number|add:'-3' and n < page_obj.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+              {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">end</span>
+                </a>
+              </li>
+              {% endif %}   
+            </ul> 
+        </div>
+
+    </section>
+
+    <!-- Comedy Movies Section -->
+    <section class="movie-section mt-4">
+        <a href="{% url 'comedy' %}"><h3>Comedy Movies</h3></a>
+        
+    </section>
+
+    <!-- Drama Movies Section -->
+    <section class="movie-section mt-4">
+        <h3>Drama Movies</h3>
+        <div class="movie-carousel">
+            <button class="scroll-btn scroll-left"><i class="fa fa-chevron-left"></i></button>
+            <div class="movie-list">
+                {% for movie in drama_movies %}
+                <div class="movie-item">
+                    <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" class="movie-poster">
+                    <p>{{ movie.title }}</p>
+                    <a href="{% url 'details' movie.pk %}" class="more-info">More Info</a>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="scroll-btn scroll-right"><i class="fa fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+</div>
+<Script>
+    document.querySelectorAll('.scroll-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const movieList = button.parentElement.querySelector('.movie-list');
+            const scrollAmount = button.classList.contains('scroll-right') ? 300 : -300;
+            movieList.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+    });
+</Script>
+{% endblock body %}
