@@ -1,6 +1,6 @@
 # Movie-Recommendation-Web-app
 
-A simple movie recommendation web application built using Django framework.
+A simple movie recommendation web application built using python and Django framework.
 
 Dataset used from [Grouplens dataset.](https://grouplens.org/datasets/movielens/)
 
